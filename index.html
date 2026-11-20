@@ -52,6 +52,14 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .note{color:var(--muted);font-size:13px;margin-top:16px}
 .pol{width:130px;min-height:44px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);padding:0 14px;font:700 20px "Chakra Petch",sans-serif}
 #toast{min-height:20px;margin-top:10px;font-weight:600;color:var(--accent)}
+.lbl{display:block;font-weight:600;margin-bottom:6px}
+.field{margin-bottom:16px}
+.busca{display:flex;gap:8px}
+.busca .txt{flex:1;min-width:0}
+.mic{min-width:48px;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);font-size:20px;cursor:pointer}
+.mic.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+#resp{min-height:22px;margin-top:8px;font-weight:600;color:var(--accent)}
+.txt{width:100%;min-height:44px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);padding:0 14px;font:500 16px Inter,sans-serif}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
 </head>
@@ -65,8 +73,13 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     <div class="chips" id="estilos" role="group" aria-label="Estilo de jogo"></div>
   </div>
   <div class="group">
-    <h2><label for="pol">Tela do celular (polegadas)</label></h2>
-    <input class="pol" id="pol" type="text" inputmode="decimal" value="6.79" autocomplete="off">
+    <h2>Seu aparelho</h2>
+    <div class="field"><label class="lbl" for="busca">Buscar meu celular</label>
+      <div class="busca"><input class="txt" id="busca" type="text" placeholder="Ex.: Galaxy A54" autocomplete="off">
+        <button class="mic" id="ok" type="button" aria-label="Buscar">🔎</button></div>
+      <div id="resp" role="status" aria-live="polite"></div></div>
+    <div class="field"><label class="lbl" for="pol">Tamanho da tela (polegadas)</label>
+      <input class="pol" id="pol" type="text" inputmode="decimal" value="6.79" autocomplete="off"></div>
   </div>
 
   <div class="panel" id="sliders"></div>
@@ -82,7 +95,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     <button class="btn main" id="copiar">Copiar valores</button>
   </div>
   <div id="toast" role="status" aria-live="polite"></div>
-  <p class="note">Os presets são pontos de partida. Teste no treino por alguns minutos e mexa de 3 em 3 pontos até a mira ficar confortável para você.</p>
+  <p class="note">O tamanho da tela entra na lista copiada e também ajusta os sliders. Os presets são pontos de partida. Teste no treino por alguns minutos e mexa de 3 em 3 pontos até a mira ficar confortável para você.</p>
 </main>
 
 <script>
@@ -145,13 +158,125 @@ function paint(){
     media>=85?"Muito rápida":media>=72?"Rápida":media>=58?"Equilibrada":"Controlada";
 }
 function render(){upE();paint()}
+function salvar(){
+  try{localStorage.setItem("sensiff-disp",JSON.stringify({pol}))}catch(e){}
+}
+["pol"].forEach(id=>document.getElementById(id).addEventListener("input",salvar));
+try{
+  const d=JSON.parse(localStorage.getItem("sensiff-disp")||"{}");
+  if(d.pol>=4&&d.pol<=13){pol=d.pol;document.getElementById("pol").value=String(d.pol)}
+}catch(e){}
+const DB=`Galaxy A06|6.7|60|1600x720
+Galaxy A05s|6.7|90|2400x1080
+Galaxy A14|6.6|90|2408x1080
+Galaxy A15|6.5|90|2340x1080
+Galaxy A16|6.7|90|2340x1080
+Galaxy A17|6.7|90|2340x1080
+Galaxy A25|6.5|120|2340x1080
+Galaxy A26|6.7|120|2340x1080
+Galaxy A27|6.7|120|2340x1080
+Galaxy A34|6.6|120|2408x1080
+Galaxy A35|6.6|120|2340x1080
+Galaxy A36|6.7|120|2340x1080
+Galaxy A37|6.7|120|2340x1080
+Galaxy A54|6.4|120|2340x1080
+Galaxy A55|6.6|120|2340x1080
+Galaxy A56|6.7|120|2340x1080
+Galaxy M14|6.6|90|2408x1080
+Galaxy M54|6.7|120|2400x1080
+Galaxy S23|6.1|120|2340x1080
+Galaxy S23 FE|6.4|120|2340x1080
+Galaxy S24|6.2|120|2340x1080
+Galaxy S25|6.2|120|2340x1080
+Galaxy S24 Ultra|6.8|120|3120x1440
+Galaxy S25 Ultra|6.9|120|3120x1440
+Redmi 12|6.79|90|2460x1080
+Redmi 13|6.79|90|2460x1080
+Redmi 12C|6.71|60|1650x720
+Redmi 13C|6.74|90|1600x720
+Redmi Note 12|6.67|120|2400x1080
+Redmi Note 13|6.67|120|2400x1080
+Redmi Note 13 Pro|6.67|120|2712x1220
+Redmi Note 14|6.67|120|2400x1080
+Redmi Note 14 Pro|6.67|120|2712x1220
+Redmi Note 14 Pro+|6.67|120|2712x1220
+Redmi Note 15|6.77|120|2392x1080
+Poco C65|6.74|90|1600x720
+Poco M6|6.79|90|2460x1080
+Poco X5 Pro|6.67|120|2400x1080
+Poco X6|6.67|120|2712x1220
+Poco X6 Pro|6.67|120|2712x1220
+Poco X7|6.67|120|2712x1220
+Poco X7 Pro|6.67|120|2712x1220
+Poco F6|6.67|120|2712x1220
+Xiaomi 14T|6.67|144|2712x1220
+Moto G23|6.5|90|1600x720
+Moto G24|6.56|90|1612x720
+Moto G54|6.5|120|2400x1080
+Moto G84|6.55|120|2400x1080
+Moto G85|6.67|120|2400x1080
+Moto G86|6.67|120|2712x1220
+Moto G Max|6.78|120|2772x1272
+Moto Edge 40 Neo|6.55|144|2400x1080
+Infinix Hot 30|6.78|90|2460x1080
+Infinix Note 30|6.78|120|2460x1080
+Realme C55|6.72|90|2400x1080
+Realme 11 Pro|6.7|120|2412x1080
+Pixel 7a|6.1|90|2400x1080
+Pixel 8|6.2|120|2400x1080
+Pixel 8a|6.1|120|2400x1080
+Pixel 9|6.3|120|2424x1080
+OnePlus 12|6.82|120|3168x1440
+OnePlus Nord CE 3 Lite|6.72|120|2400x1080
+iPhone 11|6.1|60|1792x828
+iPhone 13|6.1|60|2532x1170
+iPhone 14|6.1|60|2532x1170
+iPhone 15|6.1|60|2556x1179
+iPhone 15 Pro|6.1|120|2556x1179`;
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[^a-z0-9]/g,"");
+const CEL=DB.split("\n").map(l=>{
+  const [n,p,h,r]=l.split("|");
+  const al=[norm(n.replace("+"," plus "))];
+  if(/^Galaxy [AMS]\d/.test(n))al.push(norm(n.replace("Galaxy ","")));
+  return [al,n,+p,+h,r];
+});
+function achar(t){
+  const q=norm(t.replace("+"," plus ")).replace(/[45]g/g,"");
+  let best=null,len=0;
+  CEL.forEach(c=>c[0].forEach(a=>{
+    const i=q.indexOf(a);
+    if(i<0||a.length<=len)return;
+    const resto=q.slice(i+a.length);
+    if(/^[a-z]$/.test(resto)||/^(pro|max|plus|ultra|lite|fe|neo|se|prime|play)/.test(resto))return;
+    best=c;len=a.length;
+  }));
+  return best;
+}
+function buscar(t){
+  const c=achar(t),r=document.getElementById("resp");
+  if(!c){
+    r.textContent="Não achei esse modelo na minha lista. ";
+    const a=document.createElement("a");
+    a.href="https://www.google.com/search?q="+encodeURIComponent(t+" ficha técnica tela polegadas Hz resolução");
+    a.target="_blank";a.rel="noopener";a.textContent="Pesquisar a ficha técnica";a.style.color="var(--accent)";
+    r.appendChild(a);
+    return;
+  }
+  pol=c[2];document.getElementById("pol").value=String(c[2]);
+  aplicar();paint();salvar();
+  const msg=c[1]+": tela de "+String(c[2]).replace(".",",")+" polegadas.";
+  r.textContent=msg;
+}
+document.getElementById("ok").onclick=()=>buscar(document.getElementById("busca").value);
+document.getElementById("busca").addEventListener("keydown",e=>{if(e.key==="Enter")buscar(e.target.value)});
 aplicar();render();
 
 const toast=document.getElementById("toast");
 function aviso(t){toast.textContent=t;setTimeout(()=>toast.textContent="",2500)}
 document.getElementById("reset").onclick=()=>{aplicar();paint();aviso("Valores do preset restaurados")};
 document.getElementById("copiar").onclick=async()=>{
-  const txt=CAMPOS.map(([k,n,m,u])=>n+": "+v[k]+(u||"")).join("\n");
+  const disp=["Tela: "+pol+" pol"].filter(Boolean);
+  const txt=disp.concat(CAMPOS.map(([k,n,m,u])=>n+": "+v[k]+(u||""))).join("\n");
   try{await navigator.clipboard.writeText(txt);aviso("Valores copiados")}
   catch(e){aviso("Não foi possível copiar. Anote os valores da tela.")}
 };
