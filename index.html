@@ -59,6 +59,10 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .mic{min-width:48px;min-height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);font-size:20px;cursor:pointer}
 .mic.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 #resp{min-height:22px;margin-top:8px;font-weight:600;color:var(--accent)}
+details.dicas{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 16px}
+details.dicas summary{cursor:pointer;font:700 15px "Chakra Petch",sans-serif;min-height:48px;display:flex;align-items:center}
+details.dicas ol{padding-left:20px;margin:0 0 14px}
+details.dicas li{margin-bottom:9px}
 .txt{width:100%;min-height:44px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);padding:0 14px;font:500 16px Inter,sans-serif}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
@@ -95,6 +99,18 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     <button class="btn main" id="copiar">Copiar valores</button>
   </div>
   <div id="toast" role="status" aria-live="polite"></div>
+  <details class="dicas">
+    <summary>🎯 Como testar na sala de treino</summary>
+    <ol>
+      <li><b>Anote antes de mudar.</b> Toque em Copiar valores e guarde a sua sensi atual para poder voltar.</li>
+      <li><b>Use a arma que você mais joga</b> e treine contra os alvos ou bots por alguns minutos.</li>
+      <li><b>Mude um valor de 3 em 3 apenas na Geral.</b></li>
+      <li><b>Teste a virada:</b> gire rápido para o lado. Se a mira ficar rápida, faça a dica 3. A mira deve estar suave para puxar.</li>
+      <li><b>Não mude a sensi no meio da partida.</b> Ajuste e teste só na sala de treino.</li>
+      
+      <li><b>Dê tempo.</b> Jogue algumas partidas com a sensi nova antes de trocar de novo. O dedo leva um tempo para se acostumar.</li>
+    </ol>
+  </details>
   <p class="note">O tamanho da tela entra na lista copiada e também ajusta os sliders. Os presets são pontos de partida. Teste no treino por alguns minutos e mexa de 3 em 3 pontos até a mira ficar confortável para você.</p>
 </main>
 
